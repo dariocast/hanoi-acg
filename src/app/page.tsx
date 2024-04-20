@@ -72,7 +72,7 @@ return (
       </div>
     )}
     <div className="w-full max-w-md mx-auto">
-      <div className="flex justify-center items-center mb-8">
+      <div className="flex justify-center items-center mb-8 mt-12">
         <Image src="/logo_vna.png" alt="Vietnam Airlines" width={350} height={100} />
       </div>
       <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
