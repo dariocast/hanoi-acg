@@ -52,9 +52,9 @@ export default function Home() {
   };
 
 return (
-  <div className="flex justify-center items-center h-screen">
+  <div className="flex justify-center items-center h-auto">
     {alertVisible && (
-      <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-10">
         <div className="bg-white p-6 rounded shadow-lg text-center">
           <p>{alertMessage}</p>
           {alertLink != '' && (
