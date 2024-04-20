@@ -21,13 +21,13 @@ export default function Home() {
   };
 
 
-  const handleChange = (index: number, side: string, value: string) => {
+  const handleChange = (index: number, side: 'from' | 'to', value: string) => {
     const newMoves = [...moves];
     newMoves[index][side] = value.toUpperCase(); // Converte automaticamente in maiuscolo
     setMoves(newMoves);
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const response = await fetch('/api/validate', {
       method: 'POST',
@@ -47,6 +47,7 @@ export default function Home() {
   };
 
   const closeAlert = () => {
+    setAlertLink('')
     setAlertVisible(false); // Nasconde l'avviso
   };
 
@@ -56,12 +57,14 @@ return (
       <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
         <div className="bg-white p-6 rounded shadow-lg text-center">
           <p>{alertMessage}</p>
-          <Link href={alertLink} rel="noopener noreferrer" target="_blank">
+          {alertLink != '' && (
+              <Link href={alertLink} rel="noopener noreferrer" target="_blank">
           <button
                   className="mt-4 mr-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
             Vai!
           </button>
           </Link>
+          )}
           <button onClick={closeAlert} className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
             Chiudi
           </button>
@@ -70,7 +73,7 @@ return (
     )}
     <div className="w-full max-w-md mx-auto">
       <div className="flex justify-center items-center mb-8">
-        <Image src="/logo_vna.png" alt="Vietnam Airlines" width={350} height={100} style="fixed" />
+        <Image src="/logo_vna.png" alt="Vietnam Airlines" width={350} height={100} />
       </div>
       <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
         {moves.map((move, index) => (

@@ -1,21 +1,34 @@
+interface Move {
+    from: string;
+    to: string;
+}
+
 // Function to check if the sequence of moves is a valid solution for Tower of Hanoi
-const isValidHanoiMoveSequence = (numDiscs: number, moves: any) => {
-    const pegs = { A: [], B: [], C: [] };
+const isValidHanoiMoveSequence = (numDiscs: number, moves: Move[]) => {
+    const pegs: { [key: string]: number[] } = { A: [], B: [], C: [] }; // Better to explicitly define the type
+
     // Initialize peg A with discs in size order
     for (let i = numDiscs; i > 0; i--) {
         pegs.A.push(i);
     }
 
-    for (const move of moves) {
-        const { from, to } = move;
-        if (!pegs[from].length || (pegs[to].length && pegs[to].slice(-1)[0] < pegs[from].slice(-1)[0])) {
-            return false;
+    try {
+        for (const move of moves) {
+            const { from, to } = move;
+            // Ensure move is valid by checking if pegs[from] and pegs[to] are defined and handling operations safely
+            if (!pegs[from].length || (pegs[to].length && pegs[to].slice(-1)[0] < pegs[from].slice(-1)[0])) {
+                return false; // Invalid move found
+            }
+            pegs[to].push(pegs[from].pop()!); // Use '!' to assert that pop() will not return undefined
         }
-        pegs[to].push(pegs[from].pop());
+    } catch (error) {
+        return false
     }
 
+    // Check if all discs are on peg C
     return pegs['C'].length === numDiscs;
 };
+
 
 export async function POST(req: Request) {
     const { moves } = await req.json();
